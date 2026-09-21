@@ -1,0 +1,21 @@
+services:
+  retail-app:
+    build: .
+    image: retail-app:4.2.1
+    container_name: retail-app-container_name
+    ports:
+      - "8081:5000"
+    networks:
+      - retail-net
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+    healthcheck:
+       test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:5000/').read()"]
+       interval: 5s
+       timeout: 3s
+       retries: 3
+
+networks:
+  retail-net:
+    driver: bridge

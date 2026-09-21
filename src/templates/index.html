@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Retail Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; color: #333; }
+        .container { display: flex; gap: 30px; }
+        .box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        button { background: #007bff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .checkout-btn { background: #28a745; margin-top: 15px; width: 100%; padding: 10px; font-weight: bold; }
+        .checkout-btn:hover { background: #218838; }
+        .out-of-stock { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🛍️ Simple Retail Store App</h1>
+    <div class="container">
+        <!-- Product Catalog -->
+        <div class="box">
+            <h2>Product Catalog</h2>
+            <table>
+                <tr><th>Name</th><th>Price</th><th>Stock</th><th>Action</th></tr>
+                {% for p in products %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>${{ "%.2f"|format(p.price) }}</td>
+                    <td>{{ p.stock }}</td>
+                    <td>
+                        {% if p.stock > 0 %}
+                        <form action="{{ url_for('add_to_cart', product_id=p.id) }}" method="POST">
+                            <button type="submit">Add</button>
+                        </form>
+                        {% else %}
+                        <span class="out-of-stock">Sold Out</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <!-- Shopping Cart -->
+        <div class="box">
+            <h2>Shopping Cart</h2>
+            <table>
+                <tr><th>Item</th><th>Qty</th><th>Subtotal</th></tr>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% if cart %}
+            <form action="{{ url_for('checkout') }}" method="POST">
+                <button type="submit" class="checkout-btn">Complete Checkout</button>
+            </form>
+            {% else %}
+            <p style="margin-top: 15px; color: #666;">Your cart is currently empty.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
