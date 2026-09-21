@@ -7,7 +7,7 @@ products = [
     {"id": 1, "name": "Wireless Mouse", "price": 25.99, "stock": 15},
     {"id": 2, "name": "Mechanical Keyboard", "price": 79.99, "stock": 8},
     {"id": 3, "name": "HD Monitor", "price": 149.99, "stock": 5},
-    {"id": 4, "name": "USB-C Hub", "price": 19.99, "stock": 30}
+    {"id": 4, "name": "USB-C Hub", "price": 20.99, "stock": 30}
 ]
 
 cart = []
